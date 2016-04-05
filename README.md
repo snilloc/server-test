@@ -12,7 +12,7 @@ No UI needs to be presented for this, this is a service only provider.
 
 A movie entry should contain at a minimum the following information : 
 * name
-* category
+* genre
 * year released
 * rating
 
@@ -46,7 +46,7 @@ ___
 The project comes with a gradle wrapper. On Windows, you may execute gradlew.bat to install the needed files.
 * The build process will need to download libraries from the internet for use in the project.
 * Ports 8080 and 8081 must not be in use on your local machine. You may change the ports in the application configuration, if needed.
-* A Netbeans 8 project is provided, but you may use any IDE to do your development. The build should be done with the included gradle build spec.
+* You may use any IDE to do your development, however the build must be done with the included gradle build spec.
 
 ### Reference
 * Please refer to the Dropwizard Framework documentation. [http://www.dropwizard.io/0.9.2/docs/]
