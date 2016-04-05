@@ -30,11 +30,12 @@ You should modify this skeleton to provide the following services :
 | /api/movie/list   | Returns list of movie entries |
 
 # Requirements
-* You must use git.
+* You must use git and a fork of this repository. Use the "Fork" button at the top of the page.
 * You must use Java.
 * You must use the DropWizard framework provided.
 * Requests and responses should be modeled with JSON.
 * You must submit the final working server source to us.
+
 ___
 
 ## Getting Started
