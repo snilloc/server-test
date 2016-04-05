@@ -1,0 +1,105 @@
+apply plugin: 'java'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+mainClassName = 'server.MainApplication'
+
+repositories {
+   mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+dependencies {
+    compile 'io.dropwizard:dropwizard-core:0.9.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+jar {
+    baseName = 'test-server'
+    version =  '1.0.0'
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+task copyResources(type: Copy) {
+	from "${projectDir}/src/java/server/config"
+	into "${buildDir}/config"
+}
+processResources.dependsOn copyResources
+
+task debug(dependsOn: classes, type: JavaExec) {
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    ignoreExitValue = true
+    debug = true
+	args = ["server","${buildDir}/config/config.yml"]
+}
+
+run {
+    args "server", "${buildDir}/config/config.yml"
+}
+
+task oneJar(type: OneJar) {
+    mainClass = mainClassName
+}
+
+artifacts {
+    oneJar
+}
+
+findbugs {
+  ignoreFailures = true
+  toolVersion = "3.0.1"
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/findbugs")
+  effort = "max"
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+ }
+
+pmd {
+  ignoreFailures = true
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSets = [
+    "java-basic",
+    "java-braces",
+    "java-imports"
+  ]
+}

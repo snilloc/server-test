@@ -1,0 +1,7 @@
+## Default server configuration
+---
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+
