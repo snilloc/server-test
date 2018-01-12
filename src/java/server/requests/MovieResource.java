@@ -105,8 +105,7 @@ public class MovieResource {
                 Movie movie = new Movie(null, name, genre.orElse(null),
                         year.orElse("-2"), rating.orElse("-1.0"));
                 UUID id = (UUID) movieService.process(HttpMethod.POST, movie);
-                //Response.status(Response.Status.CREATED).entity("id was updated").build().toString();
-                return "\"Id\":\"" + id.toString() + "\"";
+                return getMessage(id.toString(), 1);
             } else {
                 log.error("Missing Name from Movie");
                 throw new MovieWebException(Response.Status.BAD_REQUEST, "Name is Rquired.  'name' is Missing.");
@@ -115,6 +114,26 @@ public class MovieResource {
             log.error("Error: in saving movie : " + name, ex);
             throw new MovieWebException(Response.Status.BAD_REQUEST, "Error in saving move: " + name);
         }
+    }
+
+    private String getMessage(String id, int num) {
+        StringBuilder builder = new StringBuilder();
+
+        switch(num) {
+            case 1:
+                builder.append("[  {\"Status\":\"CREATED\", \"ID\":\"").append(id).append("\" } ]");
+                break;
+            case 2:
+                //return Response.status(Response.Status.OK).entity("id was updated").build().toString();
+                builder.append("[  {\"Status\":\"OK\", \"ID\":\"").append(id).append("\" } ]");
+                break;
+            case 3:
+                //return Response.status(Response.Status.NO_CONTENT).entity("id was deleted").build().toString();
+                builder.append("[  {\"Status\":\"NO_CONTENT\", \"ID\":\"").append(id).append("\" } ]");
+                break;
+        }
+
+        return builder.toString();
     }
 
     /**
@@ -146,7 +165,7 @@ public class MovieResource {
                 year.orElse("-1"), rating.orElse("-1.0F"));
             log.info("Updating Movie: " + movie.toString());
             movieService.process(HttpMethod.PUT, movie);
-            return Response.status(Response.Status.OK).entity("id was updated").build().toString();
+            return getMessage(id.toString(), 2);
         } catch (ServiceException ex) {
             log.error("Error: in updating id: " + id, ex);
             throw new MovieWebException(Response.Status.NOT_MODIFIED, "Error in updating id: " + id);
@@ -168,7 +187,7 @@ public class MovieResource {
                 log.info("Deleting Movie: " + id);
                 UUID uuid = UUID.fromString(id);
                 movieService.process(HttpMethod.DELETE, uuid);
-                return Response.status(Response.Status.NO_CONTENT).entity("id was deleted").build().toString();
+                return getMessage(uuid.toString(), 3);
             } else {
                 log.error("Missing movie id");
                 throw new MovieWebException(Response.Status.BAD_REQUEST, "Missing movie id");
