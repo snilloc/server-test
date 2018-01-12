@@ -5,3 +5,10 @@ server:
     - type: http
       port: 8090
 
+template: "movie-api"
+defaultName: "movie-api-server"
+user: tester
+password: s00perSecrEET
+
+driverClass : org.h2.Driver
+connection: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1

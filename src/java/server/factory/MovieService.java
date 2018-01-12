@@ -15,7 +15,10 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.UUID;
 
-
+/**
+ * MovieService - handles all Movie Request (get,update,delete, insert, search)
+ *
+ */
 public class MovieService {
 
     private static final Logger log = LoggerFactory.getLogger(MovieService.class.getName());
@@ -23,11 +26,25 @@ public class MovieService {
     private MovieDao movieDao;
     private MovieTransformer movieTransformer;
 
+    /**
+     * Movie Service Constructor
+     *
+     * @param configuration - as a AppConfiguration
+     */
     public MovieService(AppConfiguration configuration) {
         movieDao = new ListMovieDaoImpl(configuration);
         movieTransformer = new MovieTransformer(configuration.getTemplate(), configuration.getDefaultName());
     }
 
+    /**
+     * Process for handling all the different request for Movie
+     *
+     * @param method
+     * @param request
+     * @return Object of the results (UUID when insert, json
+     * @throws ServiceException - when an error occurrs in process the request
+     * @throws MovieWebException - when the client request is invalid
+     */
     public Object process(String method, Object request) throws ServiceException, MovieWebException {
         // Handle Request
         switch(method) {
@@ -35,7 +52,7 @@ public class MovieService {
                 return get((String) request);
             case HttpMethod.DELETE:
                 delete((UUID) request);
-                return Response.ok();
+                return null;
             case HttpMethod.POST:
                 return save((Movie) request);
             case "PATCH":
@@ -81,6 +98,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Delete the move given
+     * @param id
+     * @throws ServiceException
+     */
     private void delete(UUID id) throws ServiceException {
         try {
             movieDao.delete(id);
@@ -106,6 +128,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Override the default Movie DAO
+     *
+     * @param movieDao
+     */
     public void setMovieDao(MovieDao movieDao) {
         this.movieDao = movieDao;
     }

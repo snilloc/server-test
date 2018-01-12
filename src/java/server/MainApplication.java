@@ -11,7 +11,10 @@ import server.requests.MovieResource;
 import server.requests.TimeResource;
 
 /**
- * Main application
+ * Movie Server Main Application
+ *
+ * For managing and storing all your movie needs!!!
+ *
  */
 public class MainApplication extends Application<AppConfiguration>
 {

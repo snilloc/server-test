@@ -131,6 +131,8 @@ public class MovieResource {
                 //return Response.status(Response.Status.NO_CONTENT).entity("id was deleted").build().toString();
                 builder.append("[  {\"Status\":\"NO_CONTENT\", \"ID\":\"").append(id).append("\" } ]");
                 break;
+            default:
+                break;
         }
 
         return builder.toString();

@@ -11,25 +11,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * ListMovieDaoImp implements MovieDao
+ *
+ * Provides all of the Data Access methods for an Object
+ */
 public class ListMovieDaoImpl implements MovieDao {
 
     private List<Movie> movies;
     private static final Logger log = LoggerFactory.getLogger(ListMovieDaoImpl.class.getName());
 
+    /**
+     * List Movie Data Access Object
+     *
+     * @param configuration
+     */
     public ListMovieDaoImpl(AppConfiguration configuration) {
         loadData();
     }
 
+    /**
+     * Retrieve a list of all of the movies
+     *
+     * @return
+     */
     @Override
     public List<Movie> get() {
         return movies;
     }
 
+    /**
+     * Retrieve the Movie information given the movie id
+     *
+     * @param id - movie id as UUID
+     * @return
+     * @throws DaoDataException
+     */
     public Movie get(UUID id) throws DaoDataException {
         Movie found = movies.stream().filter(n -> n.getId().toString().equals(id.toString())).findFirst().orElse(null);
         return found;
     }
 
+    /**
+     * Delete the movie from the database
+     *
+     * @param id of the movie id
+     * @throws DaoDataException if it failed
+     */
     @Override
     public void delete(UUID id) throws DaoDataException {
         for (int i=0; i < movies.size(); i++) {
@@ -38,11 +66,15 @@ public class ListMovieDaoImpl implements MovieDao {
                 return;   // Could be duplicates
             }
         }
-
-        // Already been removed
-        //throw new DaoDataException("Delete Failed! No matching id was found: " + id.toString());
     }
 
+    /**
+     * Save the Movie to the Database
+     *
+     * @param movie to be saved as Movie
+     * @return movie id as UUID
+     * @throws DaoDataException if failed to save
+     */
     public UUID save(Movie movie) throws DaoDataException {
         UUID id = UUID.randomUUID();
         movie.setId(id);
@@ -50,6 +82,12 @@ public class ListMovieDaoImpl implements MovieDao {
         return id;
     }
 
+    /**
+     * Update the Movie with the fields that are populated
+     *
+     * @param movie to update
+     * @throws DaoDataException if the update failed
+     */
     public void update(Movie movie) throws DaoDataException {
         if ((movie != null) && (movie.getId() != null)) {
                 Movie currentMovie = null;
@@ -74,22 +112,17 @@ public class ListMovieDaoImpl implements MovieDao {
                 save(movie);
 
         } else {
-            // Id never provided, so save instead
             log.warn("Id was not provided");
-            //save(movie);
             throw new DaoDataException("Failed to update without a movie id.");
         }
     }
 
     private void loadData() {
         movies = new ArrayList<>();
-        UUID id = UUID.randomUUID();
         Movie movie = new Movie(UUID.fromString("16af8093-e43b-4756-8d2b-c214ecac6256"), "300", "Action", 2004, 4.9F);
         movies.add(movie);
-        id = UUID.randomUUID();
         movie = new Movie(UUID.fromString("7bd6e7a3-7b00-49e5-a3df-1d56173386dd"), "2Toy Story", "Kids", 2004, 4.9F);
         movies.add(movie);
-        id = UUID.randomUUID();
         movie = new Movie(UUID.fromString("9492a56c-87f8-4015-8810-23bb3743fedf"), "Batman", "Action", 2004, 4.9F);
         movies.add(movie);
     }

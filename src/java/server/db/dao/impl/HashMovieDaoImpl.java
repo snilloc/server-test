@@ -55,7 +55,7 @@ public class HashMovieDaoImpl implements MovieDao {
 
         if ((movie != null) && (movie.getId() != null)) {
             Movie currentMovie = movies.stream().filter(n -> n.getId().toString().equals(movie.getId().toString())).findFirst().orElse(null);
-            if (movie != null) {
+            if (movie.getId() != null) {
                 String name = (movie.getName() != null)? movie.getName() : currentMovie.getName();
                 String genre = (movie.getGenre() != null)? movie.getGenre() : currentMovie.getGenre();
                 int year = (movie.getYear() > 0)? movie.getYear() : currentMovie.getYear();
@@ -80,13 +80,10 @@ public class HashMovieDaoImpl implements MovieDao {
 
     private void loadData() {
         movies = new HashSet<>();
-        UUID id = UUID.randomUUID();
         Movie movie = new Movie(UUID.fromString("16af8093-e43b-4756-8d2b-c214ecac6256"), "300", "Action", 2004, 4.9F);
         movies.add(movie);
-        id = UUID.randomUUID();
         movie = new Movie(UUID.fromString("7bd6e7a3-7b00-49e5-a3df-1d56173386dd"), "2Toy Story", "Kids", 2004, 4.9F);
         movies.add(movie);
-        id = UUID.randomUUID();
         movie = new Movie(UUID.fromString("9492a56c-87f8-4015-8810-23bb3743fedf"), "Batman", "Action", 2004, 4.9F);
         movies.add(movie);
     }

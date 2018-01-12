@@ -19,8 +19,16 @@ public class Movie {
     private final float rating;
 
 
+    /**
+     * Default Movie Constructor
+     *
+     * @param id - unique movie id
+     * @param name - name of the movie
+     * @param genre - genre of the movie
+     * @param year - year the movie was released
+     * @param rating - rating of the movie on scale of (0-5.0)
+     */
     public Movie(UUID id, String name, String genre, int year, float rating) {
-
         this.id = id;
         this.name = name;
         this.genre = genre;
@@ -28,14 +36,28 @@ public class Movie {
         this.rating = rating;
     }
 
+    /**
+     * Movie Constructor
+     *
+     * @param id
+     * @param name
+     * @param genre
+     * @param year
+     * @param rating
+     */
     public Movie(UUID id, String name, String genre, String year, String rating) {
-            this.id = id;
-            this.name = name;
-            this.genre = genre;
-            this.year = Integer.parseInt(year);
-            this.rating = Float.parseFloat(rating);
+       this.id = id;
+       this.name = name;
+       this.genre = genre;
+       this.year = Integer.parseInt(year);
+       this.rating = Float.parseFloat(rating);
     }
 
+    /**
+     * Override movie id - used when UUID was not available at the time.
+     *
+     * @param id - of the movie
+     */
     public void setId(UUID id) {
         this.id = id;
     }
@@ -68,11 +90,11 @@ public class Movie {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("\"id\"").append(id);
-        builder.append("\"name\"").append(name);
-        builder.append("\"genre\"").append(genre);
-        builder.append("\"year\"").append(year);
-        builder.append("\"rating\"").append(rating);
+        builder.append("{\"id\":").append(id);
+        builder.append("\"name\":").append(name);
+        builder.append("\"genre\":").append(genre);
+        builder.append("\"year\":").append(year);
+        builder.append("\"rating\":").append(rating);
         return builder.toString();
     }
 }
