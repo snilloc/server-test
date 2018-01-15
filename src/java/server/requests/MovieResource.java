@@ -5,9 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server.config.AppConfiguration;
 import server.data.model.Movie;
+import server.db.dao.impl.H2MovieDaoImpl;
+import server.db.dao.impl.HashMovieDaoImpl;
+import server.exception.DaoDataException;
 import server.exception.MovieWebException;
 import server.exception.ServiceException;
 import server.factory.MovieService;
+import server.factory.impl.MovieServiceImpl;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -39,7 +43,17 @@ public class MovieResource {
     public MovieResource(AppConfiguration configuration) {
         this.template = configuration.getTemplate();
         this.defaultName = configuration.getDefaultName();
-        movieService = new MovieService(configuration);
+        movieService = new MovieServiceImpl(configuration);
+
+        // Override ArrayList
+        try {
+            log.info("Using H2 DAO DATABASE");
+            movieService.setMovieDao(new H2MovieDaoImpl(configuration));
+        } catch (DaoDataException ex) {
+            log.info("Using Hash DAO DATABASE", ex);
+            movieService.setMovieDao(new HashMovieDaoImpl(configuration));
+        }
+
     }
 
     /**
@@ -169,7 +183,7 @@ public class MovieResource {
             movieService.process(HttpMethod.PUT, movie);
             return getMessage(id.toString(), 2);
         } catch (ServiceException ex) {
-            log.error("Error: in updating id: " + id, ex);
+            log.error(ex.getMessage(), ex);
             throw new MovieWebException(Response.Status.NOT_MODIFIED, "Error in updating id: " + id);
         }
     }

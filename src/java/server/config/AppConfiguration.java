@@ -16,10 +16,20 @@ public class AppConfiguration extends Configuration
 {
 
     @NotEmpty
-    private String template; // = "movie-api";
+    private String template;
 
     @NotEmpty
-    private String defaultName; // = "Movies";
+    private String defaultName;
+
+    // From the YAML file
+    @NotEmpty
+    private String driverClass;
+    @NotEmpty
+    private String user;
+    @NotEmpty
+    private String password;
+    @NotEmpty
+    private String connection;
 
     @JsonProperty
     public String getTemplate() {
@@ -36,12 +46,7 @@ public class AppConfiguration extends Configuration
         this.defaultName = name;
     }
 
-    // From the YAML file
-    private String driverClass;
-    private String user;
-    private String password;
-    private String connection;
-
+    @JsonProperty
     public Connection getDbConnection() {
         Connection dbConnection = null;
         try {
@@ -58,28 +63,23 @@ public class AppConfiguration extends Configuration
         return dbConnection;
     }
 
+    @JsonProperty
     public void setDriverClass(String driverClass) {
         this.driverClass = driverClass;
     }
 
+    @JsonProperty
     public void setUser(String user) {
         this.user = user;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @JsonProperty
     public void setConnection(String connection) {
         this.connection = connection;
     }
-    /*
-    private String getDbDriver() {
-        return "org.h2.Driver";
-    }
-
-    private String getConnection() {
-        return "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-    } */
-
 }

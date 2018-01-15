@@ -29,7 +29,9 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
-    compile 'io.dropwizard:dropwizard-core:1.2.2'
+    compile 'io.dropwizard:dropwizard-core:1.2.2',
+            'com.h2database:h2:1.4.196'
+    testCompile 'junit:junit:4.11'
 }
 
 sourceSets {

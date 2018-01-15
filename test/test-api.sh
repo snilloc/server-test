@@ -59,7 +59,7 @@ echo
 echo 
 echo "    PUT Update Movie: 7bd6e7a3-7b00-49e5-a3df-1d56173386dd"
 echo "   --------------------------------"
-curl -s -H "Content-Type: application/json" -X PUT "${machine}/api/movie/update?id=7bd6e7a3-7b00-49e5-a3df-1d56173386dd&name=Toy%20Story&genre=Family&year=2021&rating=1.5" | python -mjson.tool
+curl -s -H "Content-Type: application/json" -X PUT "${machine}/api/movie/update?id=7bd6e7a3-7b00-49e5-a3df-1d56173386dd&name=Toy%20Story&genre=Family&year=1021&rating=1.5" | python -mjson.tool
 #curl -s -H "Content-Type: application/json" -X PUT "${machine}/api/movie/update?id=7bd6e7a3-7b00-49e5-a3df-1d56173386dd" \
 #	--data "name=Toy%20Story" \
 #	--data "genre=Family" \
